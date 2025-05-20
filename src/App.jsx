@@ -1,48 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import {motion} from "framer-motion"
+const App = () =>{
 
-function App() {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [position ,setPosition] = useState({x: 0, y: 0});
 
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setPosition({ x: e.clientX, y: e.clientY });
-    };
-
-    document.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
-
-  return (
-    <>
-      <h1 style={{ padding: "20px" }}>Framer Motion Cursor</h1>
-      <motion.div
+  useEffect(()=>{
+    function handleMouse(e) {
+      setPosition({x: e.clientX, y: e.clientY});
+    }
+    document.addEventListener('mousemove', handleMouse);
+    return ()=> {
+      document.removeEventListener("mousemove", handleMouse);
+    }
+  },[])
+  
+  return ( 
+    <div className="h-screen w-screen bg-black">
+      <motion.div className="h-[10px] w-[10px] bg-red-500 rounded-full z-9999 pointer-events-none"
         animate={{
           x: position.x,
-          y: position.y,
+          y: position.y
         }}
-        transition={{
-          type: "spring",
-          stiffness: 500,
-          damping: 30,
-        }}
-        style={{
-          position: "fixed",
-          width: 20,
-          height: 20,
-          borderRadius: "50%",
-          backgroundColor: "red",
-          pointerEvents: "none",
-          top: 0,
-          left: 0,
-          zIndex: 9999,
-        }}
-      />
-    </>
-  );
+        >
+      </motion.div>
+      <p className="text-white fixed top-0 left-0 p-2">
+        x: {position.x}, y: {position.y}
+      </p>
+    </div>
+)
 }
 
 export default App;
